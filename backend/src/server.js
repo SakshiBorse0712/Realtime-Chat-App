@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import path from "path";
+import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.route.js" // as we are importing a local file, we have to add .js at the end 
 import messageRoutes from "./routes/message.route.js"
@@ -15,6 +16,7 @@ const __dirname = path.resolve();
 const PORT =  ENV.PORT || 5000;
 
 app.use(express.json()) // middleware  under req.body
+app.use(cookieParser())
 
 app.use("/api/auth",authRoutes);
 app.use("/api/messages", messageRoutes);
