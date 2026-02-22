@@ -4,6 +4,7 @@ import { generateToken } from "../lib/utils.js";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
 import "dotenv/config";
 import { ENV } from "../lib/env.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req,res) => {
     const {fullName , email , password} = req.body   // if we do not write ==>  app.use(express.json()) ( middleware) then req.body will not work
@@ -106,9 +107,29 @@ export const login = async (req,res) => {
 };
 
 
-// in logout , we never use req
-// res.cookies("jwt") <== make sure "jwt", is written same as in utils.js file 
 export const logout = async(_,res) => {
+    // in logout , we never use req
+    // res.cookies("jwt") <== make sure "jwt", is written same as in utils.js file 
     res.cookie("jwt","",{maxAge:0})  // after logout , the cookie will be deleted
     res.status(200).json({message:"Logged out successfully!"})
 };
+
+
+export const updateProfile = async(req,res) => {
+    try {
+        const { profilePic } = req.body;
+        if(!profilePic) return res.status(400).json({message: "Profile pic is required"})
+        
+        const userId = req.user._id; // (req.user._id) is written cause of middleware , without middleware it will give error
+
+        const uploadResponse =  await cloudinary.uploader.upload(profilePic);
+
+        const updatedUser =  await User.findByIdAndUpdate(userId,{profilePic:uploadResponse.secure_url} , {new:true});
+
+        res.status(200).json(updatedUser);
+        
+    } catch (error) {
+        console.log("Error in update profile :",error);
+        res.status(500).json({message:"Internal server error"});
+    }
+}
