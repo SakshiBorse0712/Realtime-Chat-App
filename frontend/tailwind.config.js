@@ -6,8 +6,19 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+
+  // theme : animated border
   theme: {
-    extend: {},
-  },
+        extend: {
+            animation: {
+                'border': 'border 4s linear infinite',
+            },
+            keyframes: {
+                'border': {
+                    to: { '--border-angle': '360deg' },
+                }
+            }                      
+        },
+    },
   plugins: [daisyui],
 }
