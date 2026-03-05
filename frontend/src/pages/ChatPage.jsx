@@ -5,7 +5,7 @@ import ChatsList from '../components/ChatsList';
 import ActiveTabSwitch from '../components/ActiveTabSwitch';
 import NoConversationPlaceHolder from '../components/NoConversationPlaceHolder';
 import ProfileHeader from '../components/ProfileHeader';
-
+import ChatContainer from '../components/ChatContainer';
 
 function ChatPage() {
   const {activeTab , selectedUser} = useChatStore();
