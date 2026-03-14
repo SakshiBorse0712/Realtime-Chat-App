@@ -4,15 +4,23 @@ import { useChatStore } from "../store/useChatStore";
 import ChatHeader from "./ChatHeader";
 import NoChatHistoryPlaceholder from "./NoChatHistoryPlaceholder";
 import MessageInput from "./MessageInput";
+import MessagesLoadingSkeleton from "./MessagesLoadingSkeleton";
 
 function ChatContainer() {
     const {selectedUser , getMessagesByUserID,isMessagesLoading,messages} = useChatStore()
     const {authUser} = useAuthStore()
+    const messageEndRef = useRef(null);
 
     useEffect(() => {
         getMessagesByUserID(selectedUser._id);
     }, [selectedUser,getMessagesByUserID])
     
+    // auto scroll
+    useEffect(() => {
+    if (messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <>
@@ -38,6 +46,7 @@ function ChatContainer() {
                     )}
                     {msg.text && <p className="mt-2">{msg.text}</p>}
                     <p className="text-xs mt-1 opacity-75 flex items-center gap-1">
+                      {/* local time */}
                       {new Date(msg.createdAt).toLocaleTimeString(undefined, {
                         hour: "2-digit",
                         minute: "2-digit",
@@ -46,7 +55,7 @@ function ChatContainer() {
                   </div>
                 </div>
               ))}
-              {/* 👇 scroll target */}
+              {/*scroll auto*/}
               <div ref={messageEndRef} />
             </div>
           ) : isMessagesLoading ? (
