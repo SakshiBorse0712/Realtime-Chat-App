@@ -84,6 +84,7 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
+
   subscribeToMessages: () => {
     const { selectedUser, isSoundEnabled } = get();
     if (!selectedUser) return;

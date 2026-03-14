@@ -24,6 +24,7 @@ function ChatContainer() {
 
     // clean up
     return () => unsubscribeFromMessages();
+    
   }, [selectedUser, getMessagesByUserId, subscribeToMessages, unsubscribeFromMessages]);
 
   useEffect(() => {
