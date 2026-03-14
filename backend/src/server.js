@@ -8,10 +8,12 @@ import authRoutes from "./routes/auth.route.js" // as we are importing a local f
 import messageRoutes from "./routes/message.route.js"
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
+import { app , server } from "./lib/socket.js";
 
 dotenv.config();
 
-const app = express();
+//const app = express();  delete this app and use socket app
+
 const __dirname = path.resolve(); 
 
 const PORT =  ENV.PORT || 5000;
@@ -35,7 +37,7 @@ if(process.env.NODE_ENV === "production")
     })
 } 
 
-app.listen(PORT, ()=>{ 
+server.listen(PORT, ()=>{ 
     console.log("Server running on port " + PORT);
     connectDB();
 }); 
