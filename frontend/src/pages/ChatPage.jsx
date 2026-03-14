@@ -6,7 +6,7 @@ import ActiveTabSwitch from "../components/ActiveTabSwitch";
 import ChatsList from "../components/ChatsList";
 import ContactList from "../components/ContactList";
 import ChatContainer from "../components/ChatContainer";
-import NoConversationPlaceholder from "../components/NoConversationPlaceholder";
+import NoConversationPlaceHolder from "../components/NoConversationPlaceHolder";
 
 function ChatPage() {
   const { activeTab, selectedUser } = useChatStore();
@@ -26,7 +26,7 @@ function ChatPage() {
 
         {/* RIGHT SIDE */}
         <div className="flex-1 flex flex-col bg-slate-900/50 backdrop-blur-sm">
-          {selectedUser ? <ChatContainer /> : <NoConversationPlaceholder />}
+          {selectedUser ? <ChatContainer /> : <NoConversationPlaceHolder />}
         </div>
       </BorderAnimatedContainer>
     </div>
