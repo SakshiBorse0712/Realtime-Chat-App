@@ -1,27 +1,22 @@
 import jwt from "jsonwebtoken";
 import { ENV } from "./env.js";
 
-export const generateToken = (userId,res) => {
-    //------------------------------------------------------
-    // This added by coderabbit
-    const {JWT_SECRET} = ENV;
-    if(!JWT_SECRET)
-    {
-        throw new Error("JWT_SECRET is not configured");
-    }
-    //------------------------------------------------------ 
+export const generateToken = (userId, res) => {
+  const { JWT_SECRET } = ENV;
+  if (!JWT_SECRET) {
+    throw new Error("JWT_SECRET is not configured");
+  }
 
-    const token = jwt.sign({userId}, process.env.JWT_SECRET , {
-        expiresIn: "7d"
-    }) // like a identifier
-    
+  const token = jwt.sign({ userId }, JWT_SECRET, {
+    expiresIn: "7d",
+  });
 
-    res.cookie("jwt",token,{
-        maxAge: 7 * 24 * 60 * 60 * 1000, // in  millisec
-        httpOnly: true, // prevent XSS attacks : only available by http , not by javascript ==>> this is know as cross-site scripting
-        sameSite:"strict", // prevent CSRF attact
-        secure: ENV.NODE_ENV === "development" ? false : true,
-    });
+  res.cookie("jwt", token, {
+    maxAge: 7 * 24 * 60 * 60 * 1000, // MS
+    httpOnly: true, // prevent XSS attacks: cross-site scripting
+    sameSite: "lax", //  "strict" : CSRF attacks
+    secure: ENV.NODE_ENV === "development" ? false : true,
+  });
 
-    return token;
+  return token;
 };
